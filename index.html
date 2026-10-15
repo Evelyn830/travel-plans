@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>青岛崂山 · 跨年三日放松游规划</title>
+<style>
+  :root {
+    --bg: #f6f8fb;
+    --card: #ffffff;
+    --ink: #2b3440;
+    --muted: #6b7480;
+    --line: #e6eaf0;
+    --accent: #e07a5f;      /* 暖珊瑚 */
+    --accent2: #3d8b7d;     /* 海绿 */
+    --gold: #d9a441;
+    --blue: #4a7dbd;        /* 自驾蓝 */
+    --orange: #e8964a;      /* 飞机橙 */
+    --green: #5aa06b;       /* 高铁绿 */
+    --purple: #8a7bc7;      /* 辽阳紫 */
+    --chip-bg: #f0f3f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+    padding: 32px 16px 64px;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; }
+
+  /* 封面 */
+  .hero {
+    background: linear-gradient(135deg, #2c3e50 0%, #3d8b7d 60%, #e07a5f 120%);
+    color: #fff;
+    border-radius: 20px;
+    padding: 44px 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(45,90,85,.25);
+  }
+  .hero::after {
+    content: "";
+    position: absolute; right: -60px; top: -60px;
+    width: 260px; height: 260px; border-radius: 50%;
+    background: rgba(255,255,255,.08);
+  }
+  .hero .tag {
+    display: inline-block;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.3);
+    padding: 4px 14px; border-radius: 20px;
+    font-size: 13px; letter-spacing: 1px;
+  }
+  .hero h1 { font-size: 34px; margin: 16px 0 8px; letter-spacing: 2px; }
+  .hero .sub { font-size: 15px; opacity: .92; }
+  .hero .meta {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px;
+  }
+  .hero .meta span {
+    background: rgba(255,255,255,.15);
+    padding: 6px 14px; border-radius: 8px; font-size: 13px;
+  }
+
+  /* 日期切换 */
+  .version-switch {
+    display: flex; gap: 10px; margin-top: 22px;
+  }
+  .version-switch button {
+    flex: 1; padding: 14px 16px; border-radius: 12px;
+    border: 2px solid var(--line); background: var(--card);
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    color: var(--ink); transition: all .2s;
+  }
+  .version-switch button.active {
+    border-color: var(--accent); background: #fdf3ef; color: var(--accent);
+  }
+  .version-switch button .small { font-size: 12px; font-weight: 400; color: var(--muted); display: block; }
+  .version-switch button.active .small { color: var(--accent); }
+
+  /* 区块 */
+  section { margin-top: 28px; }
+  .sec-title {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 22px; font-weight: 700; letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .sec-title .bar {
+    width: 6px; height: 24px; border-radius: 3px;
+    background: linear-gradient(var(--accent), var(--accent2));
+  }
+  .sec-title .en { font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 2px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(30,40,60,.04);
+  }
+
+  /* 概览 */
+  .overview {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+  }
+  .ov-item {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px; padding: 18px;
+    text-align: center;
+  }
+  .ov-item .k { font-size: 13px; color: var(--muted); }
+  .ov-item .v { font-size: 18px; font-weight: 700; margin-top: 6px; color: var(--accent2); }
+
+  /* 时间线 */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before {
+    content: ""; position: absolute; left: 10px; top: 6px; bottom: 6px;
+    width: 2px; background: var(--line);
+  }
+  .day { position: relative; margin-bottom: 28px; }
+  .day:last-child { margin-bottom: 0; }
+  .day-dot {
+    position: absolute; left: -23px; top: 6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--accent); border: 3px solid #fff;
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  .day .day-head {
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .day .day-title { font-size: 18px; font-weight: 700; }
+  .day .day-date {
+    font-size: 13px; color: var(--muted);
+    background: var(--chip-bg); padding: 2px 10px; border-radius: 6px;
+  }
+  .day .theme { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .slot {
+    display: flex; gap: 12px; padding: 10px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .slot:last-child { border-bottom: none; }
+  .slot .time {
+    flex: 0 0 70px; font-weight: 700; color: var(--accent2); font-size: 14px;
+  }
+  .slot .txt { flex: 1; font-size: 14px; }
+  .slot .txt b { color: var(--ink); }
+
+  /* 表格 */
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); }
+  th { background: var(--chip-bg); font-weight: 600; color: var(--ink); white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  .tbl-wrap { overflow-x: auto; }
+  .highlight-row td { background: #fdf6ef; }
+
+  /* 人物卡片 */
+  .people { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .person {
+    border: 1px solid var(--line); border-radius: 12px; padding: 16px;
+    background: #fafbfd;
+  }
+  .person .name { font-weight: 700; font-size: 15px; }
+  .person .from { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .person .mode { font-size: 12.5px; margin-top: 10px; color: var(--accent2); font-weight: 600; }
+
+  /* 标签 chip */
+  .chip {
+    display: inline-block; background: var(--chip-bg);
+    border: 1px solid var(--line); border-radius: 20px;
+    padding: 4px 12px; font-size: 12.5px; margin: 3px 3px 0 0;
+  }
+  .chip.hot { background: #fdf0ec; border-color: #f3c6b8; color: #c0563a; }
+  .chip.sea { background: #eaf5f2; border-color: #bfe0d7; color: #2e7568; }
+  .chip.warn { background: #fdf3e0; border-color: #f0d9a8; color: #a97b28; }
+
+  /* 提示块 */
+  .note {
+    background: #fff8ec; border: 1px solid #f5e3bf;
+    border-radius: 12px; padding: 14px 16px; font-size: 13.5px;
+    margin-top: 14px; color: #8a6a2a;
+  }
+  .note b { color: #6b4e12; }
+  .note.red {
+    background: #fdf0f0; border-color: #f3c8c8; color: #a34545;
+  }
+  .note.red b { color: #8b3030; }
+
+  ul.check { list-style: none; }
+  ul.check li {
+    padding: 8px 0 8px 28px; position: relative;
+    border-bottom: 1px dashed var(--line); font-size: 14px;
+  }
+  ul.check li:last-child { border-bottom: none; }
+  ul.check li::before {
+    content: "✓"; position: absolute; left: 0; top: 8px;
+    color: var(--accent2); font-weight: 700;
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+
+  .footer {
+    text-align: center; color: var(--muted); font-size: 12.5px;
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line);
+  }
+  .footer a { color: var(--accent2); }
+  .game-item { margin-bottom: 14px; }
+  .game-item .gname { font-weight: 700; font-size: 15px; }
+  .game-item .gname span { font-size: 12px; color: var(--accent); font-weight: 400; margin-left: 6px; }
+  .game-item p { font-size: 13.5px; color: var(--muted); margin-top: 3px; }
+
+  .hint { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 封面 -->
+  <div class="hero">
+    <span class="tag">青岛 · 崂山 · 女生团建</span>
+    <h1>山海之间 · 跨年三日放松游</h1>
+    <div class="sub">不追景点打卡，只住海边别墅、看海、赶海、围炉、倒计时，把三天交给海风与好姐妹</div>
+    <div class="meta">
+      <span>📅 2026.12.31 — 2027.1.2 / 2027.1.1 — 1.3</span>
+      <span>👭 五位女生</span>
+      <span>🏠 崂山海边别墅（包栋）</span>
+      <span>💰 住宿 1500–2000/晚</span>
+    </div>
+  </div>
+
+  <!-- 日期版本切换 -->
+  <section>
+    <div class="version-switch">
+      <button class="active" onclick="switchVer('A')">
+        A 版 · 12.31 出发，1.2 返程
+        <span class="small">12.31 晚到民宿跨年</span>
+      </button>
+      <button onclick="switchVer('B')">
+        B 版 · 1.1 出发，1.3 返程
+        <span class="small">1.1 晚到民宿，跨年仪式顺延当晚</span>
+      </button>
+    </div>
+    <p class="hint">两版「到达当晚 → 跨年 → 次次日」的细分时间安排完全一致，仅出发/返程的日期不同。点击上方按钮切换查看。</p>
+  </section>
+
+  <!-- 概览 -->
+  <section>
+    <div class="overview">
+      <div class="ov-item"><div class="k">出发城市</div><div class="v">杭州 · 上海 · 南通 · 沈阳 · 辽阳</div></div>
+      <div class="ov-item"><div class="k">行程天数</div><div class="v">3 天 2 晚</div></div>
+      <div class="ov-item"><div class="k">住宿预算</div><div class="v">¥1500–2000/晚</div></div>
+      <div class="ov-item"><div class="k">主打体验</div><div class="v">看海 · 赶海 · 跨年</div></div>
+    </div>
+  </section>
+
+  <!-- 五位女生信息 -->
+  <section>
+    <div class="sec-title"><span class="bar"></span>五位女生 & 出行分工 <span class="en">TRAVEL PLAN</span></div>
+    <div class="card">
+      <div class="people">
+        <div class="person"><div class="name">👧 杭州 · 女生A</div><div class="from">出发地：杭州</div><div class="mode">🚗 自驾主驾（发起人）</div></div>
+        <div class="person"><div class="name">👧 上海 · 女生B</div><div class="from">出发地：上海</div><div class="mode">🚄 高铁→杭州 会合</div></div>
+        <div class="person"><div class="name">👧 南通 · 女生C</div><div class="from">出发地：南通</div><div class="mode">🚗 中途接上同行</div></div>
+        <div class="person"><div class="name">👧 沈阳 · 女生D</div><div class="from">出发地：沈阳</div><div class="mode">✈️ SC4722 航班</div></div>
+        <div class="person"><div class="name">👧 辽阳 · 女生E</div><div class="from">出发地：辽阳</div><div class="mode">🚄→沈阳 ✈️ SC4722</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 交通明细表 -->
+  <section>
+    <div class="sec-title"><span class="bar"></span>交通方案明细 <span class="en">TRANSPORT</span></div>
+    <div class="card">
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>出发地</th><th>交通方式</th><th>关键班次/路线</th><th>时长</th><th>费用（单程）</th><th>备注</th></tr>
+          </thead>
+          <tbody>
+            <tr class="highlight-row">
+              <td><b>沈阳</b></td><td>✈️ 飞机</td><td>山航 SC4722 · 16:15 起飞 → 17:40 抵达</td><td>约 1.5h</td><td>¥579</td><td>沈阳桃仙机场直飞青岛胶东</td>
+            </tr>
+            <tr class="highlight-row">
+              <td><b>辽阳</b></td><td>🚄→✈️</td><td>辽阳→沈阳高铁 + SC4722</td><td>高铁0.5h + 飞机1.5h</td><td>高铁¥20–40 + ¥579</td><td>先高铁到沈阳，再与女生D同机</td>
+            </tr>
+            <tr>
+              <td><b>上海</b></td><td>🚄 高铁</td><td>上海虹桥 → 杭州东</td><td>约 1h</td><td>二等座 ¥73–90</td><td>先到杭州与女生A会合，再自驾出发</td>
+            </tr>
+            <tr>
+              <td><b>杭州</b></td><td>🚗 自驾</td><td>杭州出发 → 南通接人 → 青岛胶东机场</td><td>约 10h（含休息）</td><td>见下方费用明细</td><td>主驾，5人自驾车</td>
+            </tr>
+            <tr>
+              <td><b>南通</b></td><td>🚗 自驾</td><td>中途接上，随车同行</td><td>——</td><td>分摊自驾费用</td><td>女生C在途中上车</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 style="margin:20px 0 10px;color:var(--accent2);">🚗 自驾费用估算（分段计费 · 95号油）</h4>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">自驾分两段，<b>人数不同、分别分摊</b>：① 杭州→南通→机场（3 人：女生A/B/C）；② 机场→民宿（5 人一起）。</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>路段</th><th>里程</th><th>过路费</th><th>油费</th><th>小计（单程）</th><th>分摊人数</th><th>人均</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>① 杭州→南通→青岛机场</b></td>
+              <td>约 750km</td>
+              <td>约 ¥354–441</td>
+              <td>约 ¥549–586</td>
+              <td>约 ¥900–1030</td>
+              <td>3 人（A/B/C）</td>
+              <td>约 ¥300–343/人</td>
+            </tr>
+            <tr>
+              <td><b>② 机场→崂山民宿</b></td>
+              <td>约 40km</td>
+              <td>约 ¥10–20</td>
+              <td>约 ¥29</td>
+              <td>约 ¥39–49</td>
+              <td>5 人（全体）</td>
+              <td>约 ¥8–10/人</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 style="margin:20px 0 10px;color:var(--accent2);">💰 每人往返交通成本（去程 + 返程）</h4>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>成员</th><th>往返自驾分摊</th><th>机票/高铁</th><th>合计（约）</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>女生A/B/C</b>（杭州·上海·南通）</td>
+              <td>段①往返约 ¥600–686 + 段②往返约 ¥16–20 ≈ ¥620–706</td>
+              <td>女生B另加上海→杭州高铁 ¥73–90×2</td>
+              <td><b>约 ¥620–880/人</b></td>
+            </tr>
+            <tr>
+              <td><b>女生D/E</b>（沈阳·辽阳）</td>
+              <td>段②往返约 ¥16–20（去机场这段）</td>
+              <td>机票往返含机建燃油 <b>¥1039</b>（女生E另加辽阳→沈阳高铁 ¥20–40×2）</td>
+              <td><b>约 ¥1055–1119/人</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <b>返程航班：</b>山航 SC4717 · 16:30 起飞 → 18:05 抵达，¥410 起。<br>
+        <b>沈阳/辽阳往返机票：</b>SC4722（¥579）+ SC4717（¥410）+ 机建燃油 = <b>约 ¥1039/人</b>。<br>
+        <b>返程自驾：</b>沈阳/辽阳两位乘飞机返程，自驾三人从民宿直接开车回（民宿→南通→杭州，约 790km，3 人分摊，费用与去程段①+段②相当，约 ¥620–706/人）。<br>
+        <b>费用说明：</b>95号油按 ¥9.12–9.20/L、油耗 8L/100km 估算；过路费按一类客车 ETC 95 折。以上为估算区间（非实时价），请以导航和官方下单页为准。实时查询入口：
+        <a href="https://flights.ctrip.com" target="_blank">携程机票</a> ·
+        <a href="https://flight.qunar.com" target="_blank">去哪儿机票</a> ·
+        <a href="https://trains.ctrip.com" target="_blank">携程火车票</a> ·
+        <a href="https://www.12306.cn" target="_blank">12306官方</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 三天时间线 -->
+  <section>
+    <div class="sec-title"><span class="bar"></span>行程时间线 <span class="en">TIMELINE</span></div>
+    <div class="card">
+      <div class="timeline">
+
+        <!-- 到达当晚（跨年） -->
+        <div class="day">
+          <span class="day-dot"></span>
+          <div class="day-head">
+            <span class="day-title">到达当晚 · 跨年</span>
+            <span class="day-date" data-day="A">A版：12.31 周四</span>
+            <span class="day-date" data-day="B" style="display:none;">B版：1.1 周五</span>
+            <span class="theme">会合 · 入住 · 跨年仪式</span>
+          </div>
+          <div class="slot"><span class="time">18:00</span><div class="txt"><b>青岛胶东机场会合</b> — 自驾三人（杭州/上海/南通）到机场接沈阳、辽阳两位。</div></div>
+          <div class="slot"><span class="time">19:00</span><div class="txt"><b>抵达崂山民宿</b> — 办理入住，放下行李、熟悉环境、逛院子。</div></div>
+          <div class="slot"><span class="time">20:00</span><div class="txt"><b>晚饭</b> — 去附近饭店点餐，或点外卖，先填饱肚子、轻松一下。</div></div>
+          <div class="slot"><span class="time">22:00</span><div class="txt"><b>聊天 + 桌游</b> — 开投影、搓麻将、玩桌游，放松暖场。</div></div>
+          <div class="slot"><span class="time">23:00</span><div class="txt"><b>海边散步 + 跨年仪式</b> — 去海边看能否放烟花（见下方说明），散步、拍照，准备倒计时。</div></div>
+          <div class="slot"><span class="time">00:00</span><div class="txt"><b>跨年倒计时</b> — 海边/别墅里倒数，新年第一杯、合影纪念。</div></div>
+          <div class="slot"><span class="time">00:30</span><div class="txt"><b>回民宿休息</b> — 洗漱，准备第二天早起看日出。</div></div>
+        </div>
+
+        <!-- 第二天 -->
+        <div class="day">
+          <span class="day-dot"></span>
+          <div class="day-head">
+            <span class="day-title">第二天</span>
+            <span class="day-date" data-day="A">A版：1.1 周五（元旦）</span>
+            <span class="day-date" data-day="B" style="display:none;">B版：1.2 周六</span>
+            <span class="theme">日出 · 环海公路 · 自制晚餐</span>
+          </div>
+          <div class="slot"><span class="time">06:30</span><div class="txt"><b>起床看日出</b> — 面朝东方的海景房/阳台，看新年第一缕光。</div></div>
+          <div class="slot"><span class="time">07:30</span><div class="txt"><b>早餐</b> — 民宿自助 / 附近早市买豆浆油条、青岛大包。</div></div>
+          <div class="slot"><span class="time">08:30</span><div class="txt"><b>自由安排</b> — 想补觉的回房补觉；不想补觉的化妆、换衣、洗澡、收拾。</div></div>
+          <div class="slot"><span class="time">10:30</span><div class="txt"><b>环海公路自驾打卡</b> — 崂山网红环海公路，一面青山一面海，观景台停车拍照。</div></div>
+          <div class="slot"><span class="time">13:00</span><div class="txt"><b>午餐</b> — 仰口/沙子口一带吃渔家宴（崂山农家宴、烤鱼、海鲜小炒）。</div></div>
+          <div class="slot"><span class="time">14:30</span><div class="txt"><b>休整 + 买菜采购</b> — 午饭后逛菜场/码头买新鲜食材，为晚餐备料。</div></div>
+          <div class="slot"><span class="time">17:00</span><div class="txt"><b>回民宿备餐</b> — 五个人一起动手做晚餐（菜单待定）。</div></div>
+          <div class="slot"><span class="time">20:00</span><div class="txt"><b>游戏时间</b> — 桌游、电影、聊天，放松收尾这一晚。</div></div>
+        </div>
+
+        <!-- 第三天 -->
+        <div class="day">
+          <span class="day-dot"></span>
+          <div class="day-head">
+            <span class="day-title">第三天 · 返程</span>
+            <span class="day-date" data-day="A">A版：1.2 周六</span>
+            <span class="day-date" data-day="B" style="display:none;">B版：1.3 周日</span>
+            <span class="theme">慢早餐 · 收拾 · 返程</span>
+          </div>
+          <div class="slot"><span class="time">09:00</span><div class="txt"><b>慢早餐</b> — 清空剩余食材，慢慢吃、拍照留念。</div></div>
+          <div class="slot"><span class="time">11:00</span><div class="txt"><b>收拾行李、退房</b> — 12:00 前退房，收拾厨房、告别。</div></div>
+          <div class="slot"><span class="time">12:30</span><div class="txt"><b>午餐</b> — 返程前吃顿青岛特色（海鲜饺子/锅贴）。</div></div>
+          <div class="slot"><span class="time">午后</span><div class="txt"><b>分散返程</b> — 沈阳/辽阳乘 SC4717（16:30）返回；自驾三人返程，路上报平安。</div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 烟花说明 -->
+  <section>
+    <div class="sec-title"><span class="bar"></span>海边烟花 · 重要说明 <span class="en">FIREWORK NOTICE</span></div>
+    <div class="card">
+      <div class="note red">
+        <b>⚠️ 崂山区全域禁止燃放烟花爆竹</b><br>
+        根据 2026 年 8 月 27 日《青岛市崂山区人民政府办公室关于划定崂山区全域为烟花爆竹禁放区域的通知》，<b>崂山区全域</b>（含王哥庄、沙子口、仰口、太清、巨峰等核心景区，以及石老人海水浴场、小麦岛公园等重点管控区）<b>禁止燃放烟花爆竹</b>，跨年夜为管控核心期，从严执法。<br>
+        <b>违规后果：</b>公安机关责令停止燃放，并处 <b>¥300–500 罚款</b>；损坏财物或构成治安违法的依法追责。
+      </div>
+      <h4 style="margin:16px 0 10px;color:var(--accent2);">跨年夜的替代方案（同样有氛围）</h4>
+      <ul class="check">
+        <li><b>海边散步 + 手机打光拍烟花氛围照</b> — 用仙女棒冷烟花（注意：冷烟花在禁放区同样受限，务必先确认）替代，或用 <b>LED 荧光棒 / 电子烟花灯 / 灯串</b> 拍出"烟花感"照片。</li>
+        <li><b>看别人放 / 官方烟花</b> — 可关注青岛市区非禁放区的官方跨年烟花秀（如黄岛红树林、即墨海泉湾等，距崂山较远需自驾）。</li>
+        <li><b>灯光氛围</b> — 自带串灯、气球、手举灯牌，海边合影倒计时，出片又安全。</li>
+        <li><b>倒计时 + 热饮</b> — 保温杯装热红酒/热可可，海边倒数，温暖又有仪式感。</li>
+      </ul>
+      <div class="note">
+        <b>结论：</b>崂山海边<b>不能放真烟花</b>，建议改为「海边散步 + LED/荧光棒氛围 + 合影倒计时」的跨年仪式。若坚持要看烟花，需自驾前往市区非禁放区的官方烟花点（提前确认 2026–2027 跨年活动安排）。举报/咨询电话：0532-55580110（崂山公安）。
+      </div>
+    </div>
+  </section>
+
+  <!-- 游玩计划 -->
+  <section>
+    <div class="sec-title"><span class="bar"></span>游玩计划（放松向，不赶打卡）<span class="en">ACTIVITIES</span></div>
+    <div class="card">
+      <p style="font-size:14px;margin-bottom:16px;">主题是「<b>住海边 · 看海 · 慢下来</b>」，以下玩法按需挑选，不强制，天气不好就在别墅宅。</p>
+
+      <div class="two-col">
+        <div class="card" style="border-color:var(--line);box-shadow:none;background:#fafbfd;">
+          <h4 style="margin-bottom:10px;color:var(--accent2);">🌊 海边慢玩法</h4>
+          <ul class="check">
+            <li><b>赶海拾贝</b> — 会场赶海园、礁石滩，退潮捡海螺、小螃蟹、蛏子（查潮汐表）</li>
+            <li><b>海边日出</b> — 别墅面海房躺着看，或阳台看新年第一缕光</li>
+            <li><b>环海公路自驾</b> — 青山+大海，观景台拍照、心愿塔</li>
+            <li><b>仰口沙滩发呆</b> — 沙质细软，山海相依，散步拍照</li>
+            <li><b>青山渔村 / 港东渔码头</b> — 看渔港、买新鲜海鲜</li>
+          </ul>
+        </div>
+        <div class="card" style="border-color:var(--line);box-shadow:none;background:#fafbfd;">
+          <h4 style="margin-bottom:10px;color:var(--accent2);">✨ 跨年氛围点（青岛市区/周边）</h4>
+          <ul class="check">
+            <li><b>石老人海水浴场</b> — 海边跨年氛围 + 新年日出（注意：崂山禁放，不能自行放烟花）</li>
+            <li><b>五四广场</b> — 灯光秀 + 海边市集（青岛文创/非遗）</li>
+            <li><b>红树林度假世界</b> — 篝火晚会、千人倒计时、烟花（黄岛，需自驾）</li>
+            <li><b>海泉湾温泉</b> — 跨年烟花 + 泡温泉（即墨，冬日放松首选）</li>
+            <li><b>崂山太清宫</b> — 登山祈福，山顶俯瞰青岛夜景</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <span class="chip hot">推荐主打</span>
+        <span class="chip hot">看海跨年</span>
+        <span class="chip sea">赶海</span>
+        <span class="chip sea">环海公路</span>
+        <span class="chip sea">海景日出</span>
+        <span class="chip">温泉（可选）</span>
+        <span class="chip warn">崂山禁放烟花</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 别墅信息 -->
+  <section>
+    <div class="sec-title"><span class="bar"></span>崂山海边别墅参考 <span class="en">VILLA</span></div>
+    <div class="card">
+      <p style="font-size:14px;margin-bottom:12px;">结合小红书真实攻略，崂山海景/泳池独栋别墅整栋约 <b>¥1500–2000/晚</b>，与你的预算吻合。热门区域集中在 <b>王哥庄、沙子口、流清河、仰口</b> 一带，出门即沙滩/礁石滩。</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>推荐区域</th><th>特点</th><th>适合点</th></tr></thead>
+          <tbody>
+            <tr><td><b>王哥庄 · 会场社区</b></td><td>面朝黄海，日出视野好，赶海/渔码头近</td><td>看日出、赶海、买海鲜最方便</td></tr>
+            <tr><td><b>沙子口 · 流清河</b></td><td>海景别墅聚集，沙滩/礁石滩，环海公路段</td><td>海景房、自驾环海打卡</td></tr>
+            <tr><td><b>仰口 · 石海园</b></td><td>独栋庭院，距海 20 米，可躺床看日出</td><td>真·面海，参考价 ¥1480/晚</td></tr>
+            <tr><td><b>青山渔村</b></td><td>渔村风情、港东渔码头，安静私密</td><td>适合只想宅着看海、吃海鲜</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <b>选房避坑（小红书经验）：</b>① 认准「真·整栋独栋」，确认几居室、有无泳池、离海真实距离；② 1K 多一晚的"别墅"可能有货不对板情况，务必看实拍图和最新评价；③ 确认有无厨房、烧烤炉、麻将机、停车位；④ 崂山别墅多配免费停车，自驾友好。参考房源：<a href="https://www.muniao.com/room/179435.html" target="_blank">仰口石海园海景别墅</a>（参考 ¥1480/晚，宜住5人）。
+      </div>
+    </div>
+  </section>
+
+  <!-- 物品准备清单 -->
+  <section>
+    <div class="sec-title"><span class="bar"></span>物品准备清单 <span class="en">PACKING</span></div>
+    <div class="card">
+      <div class="two-col">
+        <div>
+          <h4 style="margin-bottom:10px;color:var(--accent2);">🧥 保暖（12月底青岛风大、湿冷）</h4>
+          <ul class="check">
+            <li>厚羽绒服 / 加绒外套（海边风大）</li>
+            <li>帽子、围巾、手套</li>
+            <li>加绒打底裤 / 秋裤</li>
+            <li>防滑保暖鞋 / 雪地靴</li>
+            <li>暖宝宝贴</li>
+          </ul>
+          <h4 style="margin:18px 0 10px;color:var(--accent2);">📷 记录 & 氛围</h4>
+          <ul class="check">
+            <li>相机 / 手机 + 自拍杆 / 三脚架</li>
+            <li>充电宝、充电线、插线板</li>
+            <li>LED 荧光棒 / 灯串 / 手举灯牌（替代烟花）</li>
+            <li>蓝牙音箱（别墅放歌）</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin-bottom:10px;color:var(--accent2);">🍽 生活 & 自炊</h4>
+          <ul class="check">
+            <li>个人洗漱用品、护肤品、面膜</li>
+            <li>常用药品（感冒药、肠胃药、创可贴）</li>
+            <li>保温杯、零食、水果</li>
+            <li>桌游 / 扑克牌（备选）</li>
+            <li>跨年晚餐食材（与别墅确认厨房厨具）</li>
+          </ul>
+          <h4 style="margin:18px 0 10px;color:var(--accent2);">📌 必带证件</h4>
+          <ul class="check">
+            <li>身份证（乘机/自驾/入住必需）</li>
+            <li>驾驶证（自驾主驾女生A）</li>
+            <li>手机充电器、移动电源</li>
+            <li>往返票/机票电子凭证</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note"><b>温馨提示：</b>青岛冬季海边体感温度低，一定以保暖为主；赶海建议穿防水/易清洗的鞋，带折叠小桶和手套更实用。自驾长途记得提前检查车况、加满油。</div>
+    </div>
+  </section>
+
+  <!-- 用餐安排 -->
+  <section>
+    <div class="sec-title"><span class="bar"></span>用餐安排 <span class="en">MEALS</span></div>
+    <div class="card">
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>时间</th><th>餐次</th><th>安排</th><th>建议</th></tr>
+          </thead>
+          <tbody>
+            <tr><td rowspan="1"><b>到达当晚</b></td><td>晚餐 20:00</td><td>附近饭店点餐 / 外卖</td><td>先轻松解决，海鲜饺子/家常菜</td></tr>
+            <tr><td rowspan="3"><b>第二天</b></td><td>早餐 07:30</td><td>民宿自助 / 早市</td><td>豆浆油条、青岛大包</td></tr>
+            <tr><td>午餐 13:00</td><td>渔家宴（仰口/沙子口）</td><td>崂山农家宴、烤鱼、海鲜小炒</td></tr>
+            <tr><td>晚餐 17:00备餐</td><td><b>五人自制晚餐</b>（菜单待定）</td><td>一起买菜做饭，围炉火锅/海鲜宴</td></tr>
+            <tr><td rowspan="2"><b>第三天</b></td><td>早餐 09:00</td><td>慢早餐（清空食材）</td><td>——</td></tr>
+            <tr><td>午餐 12:30</td><td>返程前青岛特色</td><td>海鲜饺子 / 锅贴 / 青岛啤酒</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note"><b>关于自制晚餐：</b>菜单待定，建议提前 2–3 天在群里商量好菜式，分工（谁买菜、谁备菜、谁掌勺、谁收拾）。别墅若有厨房和烧烤炉最方便；若无，可提前跟房东确认，或改为火锅（只需电磁炉+锅，最省事）。</div>
+    </div>
+  </section>
+
+  <!-- 室内游戏 -->
+  <section>
+    <div class="sec-title"><span class="bar"></span>五人室内游戏参考 <span class="en">GAMES</span></div>
+    <div class="card">
+      <div class="game-item">
+        <div class="gname">🀄 麻将 <span>经典必玩</span></div>
+        <p>青岛麻将/川麻随意，五人可轮换上桌，别墅若有麻将机最爽。</p>
+      </div>
+      <div class="game-item">
+        <div class="gname">🎲 桌游（阿瓦隆 / 狼人杀 / 谁是卧底）<span>5人最佳</span></div>
+        <p>5 人规模正好，阿瓦隆、谁是卧底节奏快、易上手，笑点密集。</p>
+      </div>
+      <div class="game-item">
+        <div class="gname">🎭 剧本杀（轻推理本）</div>
+        <p>提前买 5 人本，围炉读本推理，跨年氛围拉满。</p>
+      </div>
+      <div class="game-item">
+        <div class="gname">🎬 投屏电影 / 综艺马拉松</div>
+        <p>投影仪看跨年晚会或老电影，配热红酒和零食。</p>
+      </div>
+      <div class="game-item">
+        <div class="gname">🎤 迷你 KTV / 唱歌</div>
+        <p>蓝牙音箱 + 麦克风，房间就是 K 房，倒计时前嗨唱。</p>
+      </div>
+      <div class="game-item">
+        <div class="gname">🃏 扑克牌（斗地主 / 升级 / UNO）</div>
+        <p>最便携，随时开局，输了的人做第二天早餐。</p>
+      </div>
+      <div class="game-item">
+        <div class="gname">🧩 真心话大冒险 / 海龟汤</div>
+        <p>无道具、气氛好，跨年夜姐妹夜话必备。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 待办 / 待确认 -->
+  <section>
+    <div class="sec-title"><span class="bar"></span>待办 & 待确认事项 <span class="en">TODO</span></div>
+    <div class="card">
+      <ul class="check">
+        <li><b>确认别墅</b> — 锁定王哥庄/沙子口/流清河一带包栋房源，确认几居室、有无厨房/烧烤炉/麻将机/停车位、离海距离</li>
+        <li><b>尽早订票</b> — 沈阳/辽阳锁定 SC4722（去）+ SC4717（返）；上海先订高铁到杭州；跨年临近票价上涨，12 月中旬前订齐</li>
+        <li><b>自驾车辆确认</b> — 女生A确认车辆、检查车况，规划杭州→南通→青岛路线，预留 10 小时（含休息）</li>
+        <li><b>烟花方案调整</b> — 崂山全域禁放，确认改为 LED/荧光棒氛围方案，或确定是否自驾去市区官方烟花点</li>
+        <li><b>1.1 自制晚餐菜单</b> — 群内确定菜式与分工（待定）</li>
+        <li><b>查潮汐表</b> — 赶海需看退潮时间（12.31–1.2 或 1.1–1.3）</li>
+        <li><b>保暖装备</b> — 提醒全员带够厚衣服、暖宝宝</li>
+        <li><b>建出行群</b> — 共享行程、实时定位报平安</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="footer">
+    本规划信息参考自网络公开攻略、小红书真实笔记与官方平台，票价为估算区间（非实时），请以 <a href="https://hotels.ctrip.com" target="_blank">携程</a> ·
+    <a href="https://www.qunar.com" target="_blank">去哪儿</a> ·
+    <a href="https://www.fliggy.com" target="_blank">飞猪</a> ·
+    <a href="https://www.12306.cn" target="_blank">12306</a> 下单页为准。<br>
+    愿姐妹们山海之间，跨个好年 🌊✨
+  </div>
+
+</div>
+
+<script>
+function switchVer(ver) {
+  // 切换按钮高亮
+  document.querySelectorAll('.version-switch button').forEach((btn, i) => {
+    btn.classList.toggle('active', (ver === 'A' && i === 0) || (ver === 'B' && i === 1));
+  });
+  // 切换日期标签
+  document.querySelectorAll('[data-day]').forEach(el => {
+    if (el.dataset.day === ver) {
+      el.style.display = '';
+    } else {
+      el.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>
